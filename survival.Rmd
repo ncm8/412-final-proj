@@ -1,0 +1,74 @@
+---
+title: "survival"
+output: html_document
+date: "2023-04-24"
+---
+
+This is code for a survival curve but it is inaccurate. What i am doing here is using age at sample collection and diagnosis at sample collection. A survival curve measures age at diagnosis but I do not have the data of the age at which each individual was diagnosed, only the age at which their CSF sample was collected and by then they were already diagnosed with AD or not.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#load packages
+library(survival)
+library(survminer)
+library(GEOquery)
+library(dplyr)
+```
+
+```{r}
+#obtain phenotypic data
+geo_files <- getGEO('GSE200164', GSEMatrix = TRUE)
+patient_info <- pData(geo_files[[1]])
+```
+
+```{r}
+#change column names
+colnames(patient_info)[45]<- "age"
+colnames(patient_info)[46]<- "diagnosis"
+```
+
+
+```{r}
+#make age/time numeric
+class(patient_info$age)
+patient_info$age<-as.numeric(patient_info$age)
+
+#make status factor
+class(patient_info$diagnosis)
+patient_info$diagnosis<-factor(patient_info$diagnosis)
+levels(patient_info$diagnosis)
+
+#survival analysis
+s<-Surv(patient_info$age, patient_info$diagnosis=="MCI/AD")
+s2<-survfit(s ~ patient_info$`Sex:ch1`)
+plot(s2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
