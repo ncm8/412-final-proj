@@ -26,18 +26,22 @@ cogimp<-CI_integrated_data
 ```
 
 ```{r}
+#look at idents; change idents to cell_type; check idents again
 head(Idents(cogimp))
 Idents(object = cogimp) <- "cell_type"
 head(Idents(cogimp))
 ```
 
 ```{r}
+#identify the different cell types
 levels(cogimp)
 ```
 
 ```{r}
+#create an object that has the iformation for differential expression of genes between one cell type and all others
 markers1 <- FindMarkers(cogimp,  ident.1 = "Tem/Effector helper T cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
+#use that object to create a volcano plot
 ggplot(data=markers1, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("Tem/Effector helper T cells")
 ```
 
