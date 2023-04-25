@@ -3,6 +3,7 @@ title: "survival"
 output: html_document
 date: "2023-04-24"
 ---
+This is a script created to analyze the data from Piehl et al. (2022).
 
 This is code for a survival curve but it is inaccurate. What i am doing here is using age at sample collection and diagnosis at sample collection. A survival curve measures age at diagnosis but I do not have the data of the age at which each individual was diagnosed, only the age at which their CSF sample was collected and by then they were already diagnosed with AD or not.
 
