@@ -17,6 +17,8 @@ library(Seurat)
 library(SeuratData)
 library(MAST)
 library(ggplot2)
+#BiocManager::install("EnhancedVolcano")
+library(EnhancedVolcano)
 ```
 
 ```{r}
@@ -41,110 +43,103 @@ markers1 <- FindMarkers(cogimp,  ident.1 = "Tem/Effector helper T cells", ident.
 
 markers1
 
-ggplot(data=markers1, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("Tem/Effector helper T cells")
+EnhancedVolcano(markers1, x="avg_log2FC", y="p_val", lab=rownames(markers1), title = "Tem/Effector helper T cells")
 ```
-
-```{r}
-BiocManager::install("EnhancedVolcano")
-library(EnhancedVolcano)
-EnhancedVolcano(markers1, x="avg_log2FC", y="p_val", lab=rownames(markers1),)
-```
-
 
 ```{r}
 markers2 <- FindMarkers(cogimp,  ident.1 = "Tcm/Naive helper T cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers2, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("Tcm/Naive helper T cells")
+EnhancedVolcano(markers2, x="avg_log2FC", y="p_val", lab=rownames(markers2), title = "Tcm/Naive helper T cells")
 ```
 
 ```{r}
 markers3 <- FindMarkers(cogimp,  ident.1 = "Tem/Trm cytotoxic T cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers3, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("Tem/Trm cytotoxic T cells")
+EnhancedVolcano(markers3, x="avg_log2FC", y="p_val", lab=rownames(markers3), title = "Tem/Trm cytotoxic T cells")
 ```
 
 ```{r}
 markers4 <- FindMarkers(cogimp,  ident.1 = "DC2", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers4, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("DC2")
+EnhancedVolcano(markers4, x="avg_log2FC", y="p_val", lab=rownames(markers4), title = "DC2")
 ```
 
 ```{r}
 markers5 <- FindMarkers(cogimp,  ident.1 = "DC", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers5, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("DC")
+EnhancedVolcano(markers5, x="avg_log2FC", y="p_val", lab=rownames(markers5), title = "DC")
 ```
 
 ```{r}
 markers6 <- FindMarkers(cogimp,  ident.1 = "Regulatory T cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers6, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("Regulatory T cells")
+EnhancedVolcano(markers6, x="avg_log2FC", y="p_val", lab=rownames(markers6), title = "Regulatory T cells")
 ```
 
 ```{r}
 markers7 <- FindMarkers(cogimp,  ident.1 = "Memory B cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers7, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("Memory B cells")
+EnhancedVolcano(markers7, x="avg_log2FC", y="p_val", lab=rownames(markers7), title = "Memory B cells")
 ```
 
 ```{r}
 markers8 <- FindMarkers(cogimp,  ident.1 = "Type 1 helper T cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers8, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("Type 1 helper T cells")
+EnhancedVolcano(markers8, x="avg_log2FC", y="p_val", lab=rownames(markers8), title = "Type 1 helper T cells")
 ```
 
 ```{r}
 markers9 <- FindMarkers(cogimp,  ident.1 = "CD16- NK cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers9, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() + ggtitle("CD16- NK cells")
+EnhancedVolcano(markers9, x="avg_log2FC", y="p_val", lab=rownames(markers9), title = "CD16- NK cells")
 ```
 
 ```{r}
 markers10 <- FindMarkers(cogimp,  ident.1 = "Classical monocytes", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers10, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("Classical monocytes")
+EnhancedVolcano(markers10, x="avg_log2FC", y="p_val", lab=rownames(markers10), title = "Classical monocytes")
 ```
 
 ```{r}
 markers11 <- FindMarkers(cogimp,  ident.1 = "pDC", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers11, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("pDC")
+EnhancedVolcano(markers11, x="avg_log2FC", y="p_val", lab=rownames(markers11), title = "pDC")
 ```
 
 ```{r}
 markers12 <- FindMarkers(cogimp,  ident.1 = "MAIT cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers12, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("MAIT cells")
+EnhancedVolcano(markers12, x="avg_log2FC", y="p_val", lab=rownames(markers12), title = "MAIT cells")
 ```
 
 ```{r}
 markers13 <- FindMarkers(cogimp,  ident.1 = "NK cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers13, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("NK cells")
+EnhancedVolcano(markers13, x="avg_log2FC", y="p_val", lab=rownames(markers13), title = "NK cells")
 ```
 
 ```{r}
 markers14 <- FindMarkers(cogimp,  ident.1 = "CD16+ NK cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers14, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("CD16+ NK cells")
+EnhancedVolcano(markers14, x="avg_log2FC", y="p_val", lab=rownames(markers14), title = "CD16+ NK cells")
 ```
 
 ```{r}
 markers15 <- FindMarkers(cogimp,  ident.1 = "Tcm/Naive cytotoxic T cells", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers15, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("Tcm/Naive cytotoxic T cells")
+EnhancedVolcano(markers15, x="avg_log2FC", y="p_val", lab=rownames(markers15), title = "Tcm/Naive cytotoxic T cells")
 ```
 
 ```{r}
 markers16 <- FindMarkers(cogimp,  ident.1 = "ILC3", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers16, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("ILC3")
+EnhancedVolcano(markers16, x="avg_log2FC", y="p_val", lab=rownames(markers16), title = "ILC3")
 ```
 
 ```{r}
 markers17 <- FindMarkers(cogimp,  ident.1 = "Mono-mac", ident.2 = NULL, assay="RNA", test.use = "MAST")
 
-ggplot(data=markers17, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtitle("Mono-mac")
+EnhancedVolcano(markers17, x="avg_log2FC", y="p_val", lab=rownames(markers17), title = "Mono-mac")
 ```
 
 
@@ -153,7 +148,7 @@ ggplot(data=markers17, aes(x=avg_log2FC, y=-log10(p_val))) + geom_point() +ggtit
 features<-c("APOE", "BIN1", "MS4AGA", "PICALM", "CR1", "TREM2", "ABCA7", "PTK2B", "PLCG2", "SPI1", "SORL1", "CD2AP", "SLC24A4", "RIN3", "CASS4", "ADAM10", "HAVCR2", "SCIMP", "CLNK", "TNIP1", "ABCA1", "USP6NL", "INPP5D", "CD33", "WWOX", "ABI3", "APH1B", "HS3ST1", "CHRNE", "CCDC6", "KAT8")
 
 #create the heatmap
-DoHeatmap(cogimp, features = features) 
+DoHeatmap(cogimp, features = features, size=2) 
 #Warning: The following features were omitted as they were not found in the scale.data slot for the integrated assay: KAT8, CHRNE, HS3ST1, APH1B, WWOX, INPP5D, USP6NL, ABCA1, TNIP1, CLNK, SCIMP, CASS4, SLC24A4, PLCG2, PTK2B, CR1, MS4AGA, APOE
 
 ```
