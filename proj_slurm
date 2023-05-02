@@ -1,0 +1,56 @@
+#!/bin/bash   
+#SBATCH -p smp     
+#SBATCH -c 6      
+#SBATCH -t 12:00:00
+#SBATCH --mem 64G 
+#SBATCH --job-name proj     
+#SBATCH -o %j.out  
+#SBATCH -e %j.err  
+#SBATCH --mail-type=END
+
+module load sratoolkit/3.0.0
+module load java
+module load cellranger
+
+
+path_to_proj=/scratch/users/ncm84/proj
+sra_list=$(cat $path_to_proj/SRR_List.txt)
+
+for SRR in $sra_list
+do
+
+mkdir /scratch/users/ncm84/proj/$SRR
+cd /scratch/users/ncm84/proj/$SRR
+prefetch $SRR
+
+fasterq-dump --split-files $SRR
+
+fastp -q 15 -u 40 --trim_poly_g --trim_poly_x --detect_adapter_for_pe --adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT --adapter_fasta=/scratch/users/ncm84/proj/contaminants.fa -i ${SRR}_3.fastq -I ${SRR}_4.fastq -o ${SRR}_trim_3.fastq -O ${SRR}_trim_4.fastq
+
+for fast_qc_file in /scratch/users/ncm84/proj/$SRR/${SRR}_trim_[34].fastq
+do 
+/home/ncm84/FastQC/fastqc $fast_qc_file -o .
+done
+
+mv /scratch/users/ncm84/proj/$SRR/${SRR}_trim_3.fastq /scratch/users/ncm84/proj/$SRR/${SRR}_S1_L001_R1_001.fastq
+mv /scratch/users/ncm84/proj/$SRR/${SRR}_trim_4.fastq /scratch/users/ncm84/proj/$SRR/${SRR}_S1_L001_R2_001.fastq
+
+cellranger count --no-bam --id=${SRR}_cellrangerout \
+	--fastqs=/scratch/users/ncm84/proj/$SRR \
+	--transcriptome=/scratch/users/ncm84/proj/human-reference/hg38-genome
+
+
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_S1_L001_R2_001.fastq
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_S1_L001_R1_001.fastq
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_trim_3_fastqc.zip
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_trim_4_fastqc.zip
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_3.fastq
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_4.fastq
+rm -rf /scratch/users/ncm84/proj/$SRR/fastp.json
+
+
+mv /scratch/users/ncm84/proj/$SRR/${SRR}_cellrangerout/outs/filtered_feature_bc_matrix /scratch/users/ncm84/proj/$SRR
+rm -rf /scratch/users/ncm84/proj/$SRR/${SRR}_cellrangerout
+
+
+done
